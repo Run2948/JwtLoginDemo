@@ -4,10 +4,10 @@ namespace JwtLoginDemo.Models
 {
     public class ResponseModel
     {
-        public ResponseModel(ResponseCode responseCode, string responseMessage = "", object data = null)
+        public ResponseModel(ResponseCode code, string message = "", object data = null)
         {
-            Code = responseCode;
-            Message = responseMessage;
+            Code = code;
+            Message = message;
             Data = data;
         }
 

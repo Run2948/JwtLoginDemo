@@ -33,6 +33,7 @@ namespace JwtLoginDemo.Controllers
 
         private readonly RoleManager<IdentityRole> _roleManger; // 角色服务
         private readonly JWTConfig _jwtConfig;  // 配置框架将配置文件注入实体类
+
         public UserController(ILogger<UserController> logger, UserManager<AppUser> userManager,
                 SignInManager<AppUser> signInManager, IOptions<JWTConfig> jwtConfig, RoleManager<IdentityRole> roleManger)
         {
@@ -42,17 +43,16 @@ namespace JwtLoginDemo.Controllers
             _jwtConfig = jwtConfig.Value;
             _roleManger = roleManger;
         }
+
+
         /// <summary>
         /// 用户注册
-        /// AddAndUpdateUserrRegisterModel 是一个Dto 接受对象
-        /// AllowAnonymous 不需要权限验证
-        /// 作者 xxxx
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("RegisterUser")]
-        public async Task<object> RegisterUser(AddAndUpdateUserrRegisterModel model)
+        public async Task<object> RegisterUser(AddOrUpdateUserModel model)
         {
             try
             {
@@ -128,12 +128,12 @@ namespace JwtLoginDemo.Controllers
             }
         }
 
-        /// /// // [Authorize(Roles ="Admin,User")]
 
         /// <summary>
         /// 获取包含用户角色用户
         /// </summary>
         /// <returns></returns>
+        //[Authorize(Roles ="Admin,User")]
         [Authorize(Policy = "PolicyGroup")]
         [HttpGet("GetUsersContainUserRole")]
         public async Task<object> GetUserList()
@@ -160,10 +160,9 @@ namespace JwtLoginDemo.Controllers
             }
         }
 
+
         /// <summary>
         /// 用户登录
-        /// LoginModel 登录Dto接收
-        /// 作者 xxxx
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -202,6 +201,8 @@ namespace JwtLoginDemo.Controllers
                 return await Task.FromResult(new ResponseModel(Enums.ResponseCode.Error, ex.Message, null));
             }
         }
+
+
         /// <summary>
         /// 获取所有角色
         /// </summary>
@@ -221,14 +222,14 @@ namespace JwtLoginDemo.Controllers
                 throw;
             }
         }
+
+
         /// <summary>
         /// 添加角色
-        /// [Authorize(Roles ="Admin")]  只有Admin角色的用户可以访问
-        /// 作者 xxx
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")] // 只有Admin角色的用户可以访问
         [HttpPost("AddRole")]
         public async Task<object> AddRole(AddRoleModel model)
         {
@@ -266,9 +267,9 @@ namespace JwtLoginDemo.Controllers
 
         }
 
+
         /// <summary>
         /// 生成Token
-        /// 作者 xxxx
         /// </summary>
         /// <param name="user"></param>
         /// <param name="roles"></param>

@@ -10,5 +10,13 @@ namespace JwtLoginDemo.Data
         public AppDBContext(DbContextOptions options) : base(options)
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.ApplyConfiguration(new IdentityRoleConfiguration());
+            builder.ApplyConfiguration(new AppUserConfiguration());
+
+            base.OnModelCreating(builder);
+        }
     }
 }

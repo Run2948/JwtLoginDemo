@@ -60,17 +60,19 @@ namespace JwtLoginDemo
                         ValidateAudience = true, // 同上 ValidAudience 属性设置下  
                         RequireExpirationTime = true,
                         ValidateLifetime = true,   //  token失效缓冲时间 默认是五分钟 失效时间需要加上这五分钟缓冲
-                        //  如果 上面 ValidateIssuer ValidateAudience   配置为false 则不需要下面两个属性
+                        //  如果 上面 ValidateIssuer ValidateAudience  配置为false 则不需要下面两个属性
                         ValidIssuer = issure,
                         ValidAudience = audience,
 
                     };
                 });
+
             // 多角色时 可以这样配置  [Authorize(Policy ="PolicyGroup")] 动作方法上可以简写
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("PolicyGroup", policy => policy.RequireRole("Admin", "User"));
             });
+
             // 配置跨域
             services.AddCors(option =>
             {
@@ -81,6 +83,7 @@ namespace JwtLoginDemo
                     builder.AllowAnyHeader();
                 });
             });
+
             // .net 5 新增的权限验证中间件  在此处依赖注入一下  详见 AuthorizationHandleMiddleWare.cs 文件
             services.AddSingleton<IAuthorizationMiddlewareResultHandler, AuthorizationHandleMiddleWare>();
             services.AddControllers();
@@ -117,8 +120,8 @@ namespace JwtLoginDemo
                 c.IncludeXmlComments(filePath);
             });
         }
-        ///
-        /// // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

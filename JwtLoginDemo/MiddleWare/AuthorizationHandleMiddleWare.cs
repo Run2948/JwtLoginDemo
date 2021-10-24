@@ -8,8 +8,7 @@ using JwtLoginDemo.Models;
 namespace JwtLoginDemo.MiddleWare
 {
     /// <summary>
-    /// 这个是Asp.Net Core 5 新增的授权处理失败  可以直接暴露出请求上下文 省事很多啦！！！
-    /// 作者 xxx
+    /// 这个是 .Net Core 5 新增的授权处理失败  可以直接暴露出请求上下文 省事很多啦！！！
     /// </summary>
     public class AuthorizationHandleMiddleWare : IAuthorizationMiddlewareResultHandler
     {
